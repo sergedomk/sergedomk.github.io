@@ -309,12 +309,12 @@ The queue is the basic unit by which AMQP handles messages.
 There are two classes of queue: "durable" which is persistent
 and "temporary" which is not.
 
-In our Task example we use a "durable" queue to ensure that
-everything placed on the queue will eventually get delivered
-to the consuming service.
+In our "Task Request Cycle" example we use a "durable" queue to
+ensure that everything placed on the queue will eventually get
+delivered to the consuming service.
 
-In our RPC example we use the "temporary" queue as we don't need
-or want it to persist.
+In our "RPC Request/Response Cycle" example we use the "temporary"
+queue as we don't need or want it to persist.
 
 **Note:** A queue is one way from the publisher to the consumer.
 In order for the consumer to respond to the publisher, another
@@ -333,12 +333,12 @@ example shows exactly this.
 
 The AMQP transaction is similar to a database transaction.
 
-You know prior to commiting the transaction thatthe messages have been
+You know prior to commiting the transaction thati the messages have been
 delivered to the AMQP server, but they can not be consumed until the
 transaction is committed.
 
 Transactions are useful when you have multiple remote tasks that you
-want to take place *only if* a local task is successful (eg. a database
+want to take place *only if* a local task is successful (e.g., a database
 update).
 ]
 ---
