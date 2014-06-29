@@ -1,7 +1,6 @@
 class: center, middle
 # RESTful Micro-service communication over AMQP
 ## Serge Domkowski <sdomkowski@kavi.com>
-## OSBridge 2014
 .footnote-center[Presentation created using remarkjs http://remarkjs.com/]
 ---
 .left-column[
