@@ -127,3 +127,6 @@ code {
   color: #777;
   font-style: italic;
 }
+.remark-code {
+    font-size:6px;
+}

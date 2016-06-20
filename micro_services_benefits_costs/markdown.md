@@ -5,14 +5,16 @@ class: center, middle
 ---
 ## Who am I?
 
-__Serge Domkowski__ .red[*]  
+__Serge Domkowski__ .red[*]
 _Software Architect_
 
 I’ve been involved in making web software for about 22 years. I design and
 write code, talk about code, play with my son, ride my bicycle, root for the
 Timbers, drink beer, and once in a while sleep.
 
-__Kavi Corporation__ .red[**]   
+__Kavi Corporation__ .red[**]
+
+<img src="./images/kavi_logo_md_72.png" style="padding-left:80px;height:80px;float:right;">
 
 _Our mission is to help results-driven teams share and organize complex work._
 
@@ -48,6 +50,8 @@ class: center, middle
 Customer size and resource utilization varies drastically. Customer bandwidth
 requirements tend to be low to moderate with spikes during the calendar year.
 Some application features/components are utilized far more than others.
+
+.center[<img src="./images/Logos for WS6Demo-Nov2015.png" style="height:300px;padding-top:40px;">]
 ???
 * Every customer is different.
 * They represent different sectors of the business world.
@@ -71,6 +75,9 @@ Customer requirements are evolving as new technologies arise. This results in
 the need to be able to integrate these new technologies into or with our
 application and the need for our existing functionality being adaptable to
 the future needs of our customers.
+
+.center[<img src="./images/web_technology.png" style="height:200px;padding-top:60px;">]
+
 ???
 * Customer needs evolve over time.
 * New technologies present integration opportunities.
@@ -97,6 +104,70 @@ Advances in technology, new security concerns, and evolving customer needs
 require rapid development. We expect that 50-80% of the code today will be
 obsolete in 5 years. The application must be able to handle changes without
 degrading quality.
+
+```php
+//
+//     set_local_conf($directory, $variable, $value)
+//        Place the $variable/$value pair in the $local_conf file that
+//        exist in the $directory. If the $$local_conf file does not exist
+//        then create one.  
+//
+function set_local_conf($directory, $variable, $value) 
+{
+  $local_conf = '.htconf';
+
+  $file =  $directory . "/" . $local_conf;
+
+  // Open the file, it will be created if it doesn't exist
+  if ( !file_exists( $directory . "/" . $local_conf )) {
+    $fp = fopen ( $file, "a+" );
+  }
+  else {
+    $fp = fopen ( $file, "r+" );
+  }
+  
+  // Now walk throught the file and try to find an entry 
+  // in the file
+  $added_line=FALSE;
+  $index=1;
+  $file_lines = array();
+  rewind($fp);  
+  while ($line = fgets( $fp, 255)) {
+    // lets ignore the php start end php end marks for now
+    if ( !strstr ($line, '?>') &&
+     !strstr ($line, '<?') ) {
+      if (strstr ($line, $variable)) {
+    $file_lines[$index]= $variable . " = '" . $value  . "';\n";
+    $added_line = TRUE;
+      }
+      else {
+    $file_lines[$index]=$line;
+      }
+    }
+    $index++;
+  }
+
+  // If the value didn't already exist then lets add it at the end
+  if ( !$added_line ) {
+    $file_lines[$index]= $variable . " = '" . $value  . "';\n";
+    $index++;
+  } 
+
+  // Add beginning marks
+  $file_lines[0]= '<?' . "\n";
+
+  // Now lets rewrite the file
+  rewind($fp);
+  for ($i=0 ; $i<=$index; $i++) {
+      if (isset ($file_lines[$i])) {
+          $newline = $file_lines[$i];
+          fwrite ($fp, $newline);
+      }
+  }
+  fclose ($fp);
+  chmod ($file, 0664);
+}
+```
 ???
 * We expect 50-80% of the code today will be obsolete in 5 years.
 
@@ -133,16 +204,24 @@ class: center, middle
 * [_Reality check_] Complexity is the essance of coding; You cannot have code without it.
 ---
 ## Interfaces, Interfaces, Interfaces.
+
+.center[<img src="./images/interfaces.png" style="width:700px;padding-top:90px">]
 ???
 * Micro-services have interfaces.
 * With a lot of services, come a lot of interfaces.
 ---
 ## Interfaces, Interfaces, Interfaces.
 
+
 * __Documentation__
   * Automated Code Documentation
   * Automated API Documentation
   * Architectural Documentation
+
+.center[
+<img src="./images/documentation2.png" style="width:250px;padding:10px;margin-top:40px">
+<img src="./images/documentation.png" style="width:250px;padding:10px;margin-top:40px">
+]
 ???
 * Document the code and automate documentation; This is just common sense.
 * API documentation is a must; There is a horrible lack of tools for automating.
@@ -154,6 +233,11 @@ class: center, middle
   * Limited Depth
   * Established Usage Patterns
   * Topic Exchange
+
+.center[
+<img src="./images/depth.png" style="height:150px;padding-top:40px;"><br>
+<img src="./images/topic.png" style="height:80px;padding-top:40px;">
+]
 ???
 * Deeply connected inter-service communication leads to problems.
 * Most of the rest of this presentation deals with these problems.
@@ -161,6 +245,8 @@ class: center, middle
 * AMQP Topic Exchange.
 ---
 ## Asyncronous Communication
+
+.center[<img src="./images/async.png" style="padding-top:40px;">]
 ???
 * Web used to be about one page at a time.
 * Not anymore (Frondend frameworks; SOA)
@@ -169,6 +255,8 @@ class: center, middle
 
 * __Order of Operations__
   * Requeuing
+
+.center[<img src="./images/order.png" style="padding-top:40px;">]
 ???
 * Order matters; The context of a request may depend on another request.
 * Tail end requeuing to fix ordering issues.
@@ -179,6 +267,8 @@ class: center, middle
   * Dead Letter Queue
   * Monitoring
   * Tracebacks
+
+.center[<img src="./images/infinity.png" style="height:200px;padding-top:80px;">]
 ???
 * To further complicate the issue of requeuing...
 * Some failures don't go away.
@@ -187,6 +277,8 @@ class: center, middle
 * Make sure you can figure out what went wrong.
 ---
 ## Asyncronous Communication
+
+<img src="./images/latency.png" style="height:400px;padding-right:80px;float:right;">
 
 * __Latency__
   * Forced Lag
@@ -200,6 +292,11 @@ class: center, middle
 ---
 ## Asyncronous Communication
 
+<div style="float:right">
+.center[<img src="./images/awstats_logo6.png" style="height:30px;">]
+<img src="./images/awstats.png" style="height:400px;">
+</div>
+
 * __Debugging__
   * Configurable Logging
   * Log Analytics
@@ -210,6 +307,8 @@ class: center, middle
 * Get all the data you can.
 ---
 ## Inter-service Dependencies
+
+.center[<image src="./images/dependency.png" style="width:660px;padding-top:80px">]
 ???
 * Interfaces lead to dependencies which lead...
 * A whole lot of problems.
@@ -220,6 +319,8 @@ class: center, middle
   * Establish Usage Patterns
   * Determine Suitable Services
   * Architectural vs. UX Documentation
+
+.center[<image src="./images/messaging.png" style="width:500px;padding-top:60px">]
 ???
 * Know your dependencies.
 * Define your dependencies.
@@ -230,6 +331,8 @@ class: center, middle
 * __Deployment__
   * API Versioning
   * Pre-deployment of Dependencies
+
+.center[<image src="./images/versioning.png" style="width:360px;padding-top:60px">]
 ---
 ## Inter-service Dependencies
 
@@ -251,36 +354,30 @@ class: center, middle
 * There is no Siver Bullet.
 ---
 ## Process Control
-???
-* Customers need to manage process.
-* Different users have different expectations.
----
-## Process Control
 
 * __Service level Configurability__
   * Stored Service Configuration/Customer
-???
-* Customer per/service configurability.
-* Potential duplicate configurations.
-* Some interesting UX considerations.
----
-## Process Control
-
 * __User level Configurability__
   * Stored Client-Side Configuration/Session
 ???
-* This one is a bit easier.
----
-## Activity Reporting
-???
-* Marketing/Sales/Billing
+* Customers need to manage process.
+* Different users have different expectations.
+* Customer per/service configurability.
+  * Potential duplicate configurations.
+  * Some interesting UX considerations.
+* User configurability.
+  * This one is a bit easier.
 ---
 ## Activity Reporting
 
 * __Data Replication__
   * Duplication of Data
   * Aggregation of Data
+
+.center[<img src="./images/search.png" style="padding-top:80px">]
 ???
+* Marketing/Sales/Billing
+  * Solr
 TODO
 ---
 class: center, middle
