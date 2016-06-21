@@ -428,7 +428,7 @@ http://www.amqp.org/specification/0-9-1/amqp-org-download
 __Microservices - a definition of this new architectural term__
 http://martinfowler.com/articles/microservices.html
 
-__Service Oriented Architecture__
+__Service Oriented Architecture__<br>
 http://www.opengroup.org/soa/source-book/soa/soa.htm
 
 __No Silver Bullet - Essance and Accident in Software Engineering__
@@ -440,6 +440,6 @@ https://www.infoq.com/minibooks/dependency-oriented-thinking-1
 __Dependency Oriented Thinking - Volume 2__
 https://www.infoq.com/minibooks/dependency-oriented-thinking-2
 
-__Flow Based Programming__
+__Flow Based Programming__<br>
 http://www.jpaulmorrison.com/fbp/
 
