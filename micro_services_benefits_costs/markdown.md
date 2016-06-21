@@ -36,7 +36,9 @@ class: center, middle
 ## To discuss some hard choices concerning micro-services.
 ???
 Several years ago I went to a talk on micro-services here at OS-Bridge. [_Personal Story_]
-* We were doing the same things they were
+* Good presentation.
+* We were doing the same things they were.
+* We noticed some issues buiding micro-services not discussed.
 * Only talked about what was going right
 
 __There are some hurdles to micro-services which should be shared.__
@@ -56,6 +58,7 @@ Some application features/components are utilized far more than others.
 * Every customer is different.
 * They represent different sectors of the business world.
 * Their needs are different.
+* "results-driven" i.e., deadlines. [Mission Statement]
 
 [_Last sentence_] __Some application features/components are utilized far more than others.__
 ---
@@ -96,7 +99,7 @@ the future needs of our customers.
 ## Interfaces represent business logic which tend<br>to be easy to adapt to external services.
 ]
 ???
-Micro-services are all about business needs. [_Continuation on prevous point_] 
+Micro-services are all about business needs. [_Continuation on prevous point_]
 ---
 ## Maintainability
 
@@ -110,9 +113,9 @@ degrading quality.
 //     set_local_conf($directory, $variable, $value)
 //        Place the $variable/$value pair in the $local_conf file that
 //        exist in the $directory. If the $$local_conf file does not exist
-//        then create one.  
+//        then create one.
 //
-function set_local_conf($directory, $variable, $value) 
+function set_local_conf($directory, $variable, $value)
 {
   $local_conf = '.htconf';
 
@@ -125,13 +128,13 @@ function set_local_conf($directory, $variable, $value)
   else {
     $fp = fopen ( $file, "r+" );
   }
-  
-  // Now walk throught the file and try to find an entry 
+
+  // Now walk throught the file and try to find an entry
   // in the file
   $added_line=FALSE;
   $index=1;
   $file_lines = array();
-  rewind($fp);  
+  rewind($fp);
   while ($line = fgets( $fp, 255)) {
     // lets ignore the php start end php end marks for now
     if ( !strstr ($line, '?>') &&
@@ -151,7 +154,7 @@ function set_local_conf($directory, $variable, $value)
   if ( !$added_line ) {
     $file_lines[$index]= $variable . " = '" . $value  . "';\n";
     $index++;
-  } 
+  }
 
   // Add beginning marks
   $file_lines[0]= '<?' . "\n";
@@ -199,9 +202,10 @@ class: center, middle
 # #1.
 ## Misjudged the complexity.
 ???
-* While a micro-service may be simple compared to a 1 million line monolith.
+* While a micro-service may be simple compared to a 1 million line monolith,
 * A collection of micro-services is a whole new kind of complex.
 * [_Reality check_] Complexity is the essance of coding; You cannot have code without it.
+* There is no Silver Bullet which will make complexity go away.
 ---
 ## Interfaces, Interfaces, Interfaces.
 
@@ -224,10 +228,14 @@ class: center, middle
 ]
 ???
 * Document the code and automate documentation; This is just common sense.
-* API documentation is a must; There is a horrible lack of tools for automating.
+* API documentation is a must; There is a horrible lack of decent tools for automating.
+  * Even less if you are not using an off-the-shelf framework.
+  * We are hand-writing now with the goal of wrting our own automation in the near future.
 * Architecture: Pay special attention to inter-service dependencies.
 ---
 ## Interfaces, Interfaces, Interfaces.
+
+<img src="./images/tangled.png" style="height:250px;padding-right:40px;float:right;">
 
 * __The Tangled Web__
   * Limited Depth
@@ -235,8 +243,7 @@ class: center, middle
   * Topic Exchange
 
 .center[
-<img src="./images/depth.png" style="height:150px;padding-top:40px;"><br>
-<img src="./images/topic.png" style="height:80px;padding-top:40px;">
+<img src="./images/topic.png" style="height:110px;margin-top:180px;">
 ]
 ???
 * Deeply connected inter-service communication leads to problems.
@@ -305,12 +312,13 @@ class: center, middle
 * You can't fix what you can't find.
 * Async issues can be near impossible to replicate.
 * Get all the data you can.
+* Context matters.
 ---
 ## Inter-service Dependencies
 
 .center[<image src="./images/dependency.png" style="width:660px;padding-top:80px">]
 ???
-* Interfaces lead to dependencies which lead...
+* Interfaces lead to dependencies which lead to...
 * A whole lot of problems.
 ---
 ## Inter-service Dependencies
@@ -318,7 +326,7 @@ class: center, middle
 * __Planning__
   * Establish Usage Patterns
   * Determine Suitable Services
-  * Architectural vs. UX Documentation
+  * Architectural/UX Considerations
 
 .center[<image src="./images/messaging.png" style="width:500px;padding-top:60px">]
 ???
@@ -333,12 +341,20 @@ class: center, middle
   * Pre-deployment of Dependencies
 
 .center[<image src="./images/versioning.png" style="width:360px;padding-top:60px">]
+???
+* Again; Context matters!
 ---
 ## Inter-service Dependencies
 
 * __Duplication__
   * Code Libraries
   * Replication of Data
+
+.center[
+<img src="./images/account_db.png" style="height:300px;padding-top:60px;padding-right:80px">
+<img src="./images/membership_db.png" style="height:300px;padding-top:60px">
+]
+
 ???
 * Standardized interfaces may lead to duplication of code across multiple languages.
 * Keys and other data duplicated across databases.
@@ -350,8 +366,10 @@ class: center, middle
 * [_Read it!_]
 * Micro-services solve some problems.
 * But present some as well.
+* Micro-services are not the solution for every business need.
 * Your customer needs may be met better with a different arch.
-* There is no Siver Bullet.
+* Your micro-service arch. may require some tweaking.
+* You may have to adjust the customer's "wants" to address their "needs".
 ---
 ## Process Control
 
@@ -360,6 +378,7 @@ class: center, middle
 * __User level Configurability__
   * Stored Client-Side Configuration/Session
 ???
+* "results-driven"; "complex work" == "Process Control" [Mission Statement]
 * Customers need to manage process.
 * Different users have different expectations.
 * Customer per/service configurability.
@@ -376,9 +395,10 @@ class: center, middle
 
 .center[<img src="./images/search.png" style="padding-top:80px">]
 ???
-* Marketing/Sales/Billing
-  * Solr
-TODO
+* Marketing/Sales/Billing. Targeting users and usage.
+* Duplication for targeted reporting.
+* Open Source Search Engines require data.
+* Write your own? Postgres JSONB and builtin search features.
 ---
 class: center, middle
 # How has this changed what we do?
@@ -392,9 +412,9 @@ class: center, middle
 
 ## REST can not solve everything
 ???
-* Not everything fits "REST".
-* Use it's concept of utilizing the protocol.
-* Don't force evey protocol to be HTTP.
+* Not everything fits strict "REST".
+* Do use it's core concept of utilizing the protocol.
+* But, don't force evey protocol to be HTTP.
 ---
 ## Product/UX/Architecture Three Month Plan
 
