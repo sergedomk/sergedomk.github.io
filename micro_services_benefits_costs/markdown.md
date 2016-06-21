@@ -47,7 +47,7 @@ class: center, middle
 ---
 ## Scalability
 
-Customer size and resource utilization varies drastically. Customer bandwidth
+Customer size and resource utilization vary drastically. Customer bandwidth
 requirements tend to be low to moderate with spikes during the calendar year.
 Some application features/components are utilized far more than others.
 
@@ -61,7 +61,7 @@ Some application features/components are utilized far more than others.
 ---
 ## Scalability
 
-Customer size and resource utilization varies drastically. Customer bandwidth
+Customer size and resource utilization vary drastically. Customer bandwidth
 requirements tend to be low to moderate with spikes during the calendar year.
 .red[__Some application features/components are utilized far more than others.__]
 
