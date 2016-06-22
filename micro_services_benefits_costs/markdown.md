@@ -1,6 +1,8 @@
 class: center, middle
 # Micro-services provide some benefits, but at what cost?
+### Presented at [Open Source Bridge 2016](http://opensourcebridge.org/)
 ## Serge Domkowski <sdomkowski@kavi.com>
+
 .footnote-center[Presentation created using remarkjs http://remarkjs.com/]
 ---
 ## Who am I?
